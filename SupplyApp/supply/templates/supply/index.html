@@ -1,0 +1,9 @@
+{% if barracks_list %}
+    <ul>
+    {% for barracks in barracks_list %}
+        <li><a href="/supply/{{ barracks.id }}/">{{ barracks.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No barracks are available.</p>
+{% endif %}

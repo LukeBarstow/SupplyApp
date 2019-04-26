@@ -1,0 +1,6 @@
+<h1>{{ barracks.name floor.floor }}</h1>
+<ul>
+{% for bathroom in floor.bathroom_set.all %}
+    <li><a href="/supply/{{ bathroom.id }}/">{{ bathroom.bathroom }}</a></li>
+{% endfor %}
+</ul>
