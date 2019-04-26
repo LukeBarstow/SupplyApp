@@ -12,13 +12,15 @@ def index(request):
 
 def floor(request, barracks_id):
     barracks = get_object_or_404(Barracks, pk=barracks_id)
-    floor_list = Floor.objects.get(barracks_id=barracks_id)
+    floor_list = Floor.objects.filter(barracks_id=barracks_id)
     context = {'floor_list': floor_list,}
-    return render(request, 'supply/floor.html', context)
+    return render(request, barracks, 'supply/floor.html', context)
 
 def bathroom(request, floor_id):
-    response = "Select your bathroom on %s."
-    return HttpResponse(response % floor_id)
+    barracks = get_object_or_404(Barracks, pk=barracks_id)
+    floor_list = Floor.objects.filter(barracks_id=barracks_id)
+    context = {'floor_list': floor_list,}
+    return render(request, 'supply/floor.html', context)
 
 def statuses(request, bathroom_id):
     return HttpResponse("These are your supply levels for %s." % bathroom_id)
