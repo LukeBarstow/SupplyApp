@@ -1,0 +1,10 @@
+<h1>{{ barracks.name }} {{floor.floor}} {{bathroom.bathroom}}</h1>
+{% if status_list %}
+    <ul>
+    {% for status in status_list %}
+        <li><a href="/supply/{{ barracks.id }}/{{ floor.id }}/{{ bathroom.id }}/{{ status.id }}">{{ barracks.name }}{{ floor.floor }}{{ bathroom.bathroom }} {{status.status}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No statuses are available.</p>
+{% endif %}

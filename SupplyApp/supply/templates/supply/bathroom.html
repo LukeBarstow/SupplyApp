@@ -1,6 +1,10 @@
-<h1>{{ barracks.name floor.floor }}</h1>
-<ul>
-{% for bathroom in floor.bathroom_set.all %}
-    <li><a href="/supply/{{ bathroom.id }}/">{{ bathroom.bathroom }}</a></li>
-{% endfor %}
-</ul>
+<h1>{{ barracks.name }} {{floor.floor}}</h1>
+{% if bathroom_list %}
+    <ul>
+    {% for bathroom in bathroom_list %}
+        <li><a href="/supply/{{ barracks.id }}/{{ floor.id }}/{{ bathroom.id }}">{{ barracks.name }}{{ floor.floor }}{{ bathroom.bathroom }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No bathrooms are available.</p>
+{% endif %}

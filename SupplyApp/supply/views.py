@@ -13,17 +13,23 @@ def index(request):
 def floor(request, barracks_id):
     barracks = get_object_or_404(Barracks, pk=barracks_id)
     floor_list = Floor.objects.filter(barracks_id=barracks_id)
-    context = {'floor_list': floor_list,}
-    return render(request, barracks, 'supply/floor.html', context)
-
-def bathroom(request, floor_id):
-    barracks = get_object_or_404(Barracks, pk=barracks_id)
-    floor_list = Floor.objects.filter(barracks_id=barracks_id)
-    context = {'floor_list': floor_list,}
+    context = {'floor_list': floor_list, 'barracks':barracks}
     return render(request, 'supply/floor.html', context)
 
-def statuses(request, bathroom_id):
-    return HttpResponse("These are your supply levels for %s." % bathroom_id)
+def bathroom(request, barracks_id, floor_id):
+    barracks = get_object_or_404(Barracks, pk=barracks_id)
+    floor = get_object_or_404(Floor, pk=floor_id)
+    bathroom_list = Bathroom.objects.filter(floor_id=floor_id)
+    context = {'bathroom_list': bathroom_list,'floor':floor, 'barracks':barracks,}
+    return render(request, 'supply/bathroom.html', context)
+
+def statuses(request, barracks_id, floor_id, bathroom_id):
+    barracks = get_object_or_404(Barracks, pk=barracks_id)
+    floor = get_object_or_404(Floor, pk=floor_id)
+    bathroom = get_object_or_404(Bathroom, pk=bathroom_id)
+    status_list = Item.objects.filter(bathroom_id=bathroom_id)
+    context = {'status_list':status_list,'bathroom': bathroom,'floor':floor, 'barracks':barracks,}
+    return render(request, 'supply/bathroom.html', context)
 
 def update(request, bathroom_id):
     return HttpResponse("Update any of your bathroom's supply levels")
