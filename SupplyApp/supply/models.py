@@ -25,7 +25,7 @@ class Item(models.Model):
         return '%s %s' % (self.bathroom_id, self.item)
 
 class Status(models.Model):
-    item_id = models.ForeignKey(Item, on_delete=models.CASCADE, default='')
+    item_id = models.OneToOneField(Item, on_delete=models.CASCADE, default='')
     status = models.CharField(max_length=10)
     def __str__(self):
         return '%s %s' % (self.item_id, self.status)
