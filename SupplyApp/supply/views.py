@@ -1,9 +1,28 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import get_object_or_404
+from django.forms import ModelForm
+from django import forms
+from django.utils import timezone
+from .forms import StatusForm
 
-from .models import Barracks, Floor, Bathroom, Item, Status
+from .models import Barracks, Floor, Bathroom, Item
 
+def updateStatus(request):
+
+    if request.method == "POST":
+        form = StatusForm(request.POST)
+        if form.is_valid():
+            model_instance = form.save(commit=False)
+            model_instance.timestamp = timezone.now()
+            model_instance.save()
+            return redirect('/')
+
+    else:
+
+        form = StatusForm()
+
+        return render(request, "status.html", {'form': form})
 
 def index(request):
     barracks_list = Barracks.objects.all()
