@@ -2,12 +2,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1>Supply Tracker</h1>
+    <p>This app tracks the supply levels of various bathroom supplies in the barracks</p>
+  </div>
+</div>
+<div class="btn-group-vertical">
 {% if barracks_list %}
-    <ul>
     {% for barracks in barracks_list %}
-        <li><a href="/supply/{{ barracks.id }}/">{{ barracks.name }}</a></li>
+      <a href="/supply/{{ barracks.id }}/" class="btn btn-info" role="button">{{ barracks.name }}</a>
     {% endfor %}
-    </ul>
+</div>
 {% else %}
     <p>No barracks are available.</p>
 {% endif %}

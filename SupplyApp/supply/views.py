@@ -8,22 +8,6 @@ from .forms import StatusForm
 
 from .models import Barracks, Floor, Bathroom, Item
 
-def updateStatus(request):
-
-    if request.method == "POST":
-        form = StatusForm(request.POST)
-        if form.is_valid():
-            model_instance = form.save(commit=False)
-            model_instance.timestamp = timezone.now()
-            model_instance.save()
-            return redirect('/')
-
-    else:
-
-        form = StatusForm()
-
-        return render(request, "status.html", {'form': form})
-
 def index(request):
     barracks_list = Barracks.objects.all()
     context = {'barracks_list': barracks_list,}
@@ -47,14 +31,17 @@ def statuses(request, barracks_id, floor_id, bathroom_id):
     floor = get_object_or_404(Floor, pk=floor_id)
     bathroom = get_object_or_404(Bathroom, pk=bathroom_id)
     item_list = Item.objects.filter(bathroom_id=bathroom_id)
-    context = {'item_list':item_list,'bathroom': bathroom,'floor':floor, 'barracks':barracks,}
+    context = {'item_list':item_list, 'bathroom': bathroom,'floor':floor, 'barracks':barracks,}
     return render(request, 'supply/status.html', context)
 
 def update(request, barracks_id, floor_id, bathroom_id, item_id):
+    new_status = request.POST['status']
     barracks = get_object_or_404(Barracks, pk=barracks_id)
     floor = get_object_or_404(Floor, pk=floor_id)
     bathroom = get_object_or_404(Bathroom, pk=bathroom_id)
-    item = get_object_or_404(Item, pk=item_id)
-    status = Status.objects.filter(item_id=item_id)
-    context = {'status':status,'item':item,'bathroom': bathroom,'floor':floor, 'barracks':barracks,}
-    return render(request, 'supply/update.html', context)
+    item = Item.objects.get(pk=item_id)
+    item.status = new_status
+    item.save()
+    item_list = Item.objects.filter(bathroom_id=bathroom_id)
+    context = {'item_list':item_list, 'bathroom': bathroom,'floor':floor, 'barracks':barracks,}
+    return render(request, 'supply/status.html', context)

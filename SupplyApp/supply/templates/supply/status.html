@@ -2,13 +2,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<h1>{{ barracks.name }} {{floor.floor}} {{bathroom.bathroom}} Items </h1>
-{% if item_list %}
-    <ul>
-    {% for item in item_list %}
-        <li><a href="/supply/{{ barracks.id }}/{{ floor.id }}/{{ bathroom.id }}/{{ item.id }}"> {{item.item}} </a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No items are available.</p>
-{% endif %}
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1>Supply Tracker</h1>
+    <p>This app tracks the supply levels of various bathroom supplies in the barracks</p>
+  </div>
+</div>
+<h1>{{ barracks.name }}, floor {{floor.floor}}, {{bathroom.bathroom}} Items </h1>
+{% for item in item_list %}
+  <form action="{% url 'supply:update' barracks.id floor.id bathroom.id item.id %}" method="post">
+  {% csrf_token %}
+  <input type="text" name="status" value="{{item.status}}" />
+  <input type="submit" value="Update {{item.item}}" />
+  </form>
+{% endfor %}

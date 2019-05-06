@@ -21,6 +21,6 @@ class Bathroom(models.Model):
 class Item(models.Model):
     bathroom_id = models.ForeignKey(Bathroom, on_delete=models.CASCADE, default='')
     item = models.CharField(max_length=200)
-    status = models.CharField(max_length=10, default='')
+    status = models.CharField(max_length=10, default='green', null=True, blank=True)
     def __str__(self):
         return '%s %s' % (self.bathroom_id, self.item)
